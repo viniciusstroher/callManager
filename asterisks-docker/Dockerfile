@@ -12,13 +12,26 @@ RUN aptitude -y install linux-headers
 RUN aptitude -y install vim php5 apache2 gcc g++ ncurses-dev libxml2 libxml2-dev 
 RUN aptitude -y install openssl openssh-server openssh-client libnewt-dev zlib1g zlib1g-dev unixodbc
 
-#linux-headers-`uname -r`
-RUN wget http://downloads.asterisk.org/pub/telephony/asterisk/asterisk-13.5.0.tar.gz && \
-	wget http://downloads.asterisk.org/pub/telephony/libpri/libpri-1.4-current.tar.gz && \
-	wget http://downloads.asterisk.org/pub/telephony/dahdi-linux-complete/dahdi-linux-complete-current.tar.gz && \
-	tar -xvf libpri-1.4-current.tar.gz && \
-	tar -xvf dahdi-linux-complete-current.tar.gz && \
-	tar -xvf asterisk-13.5.0.tar.gz
+RUN uname -a
+
+
+RUN wget https://downloads.asterisk.org/pub/telephony/asterisk/asterisk-13-current.tar.gz && \
+	tar -xzvf dahdi-linux-2.11.1.tar.gz -C /usr/src/ && \
+	tar -xzvf dahdi-tools-2.11.1.tar.gz -C /usr/src/ && \
+	tar -xzvf libpri-1.6.0.tar.gz -C /usr/src/ && \
+	tar -xzvf asterisk-13-current.tar.gz -C /usr/src
+
+#make dos dahdi
+
+RUN cd /usr/src/asterisk-13-current/ && \
+	./contrib/scripts/install_prereq install && \
+	make clean && \
+	./configure && \
+	make menuselect && \
+	make && \
+	make install && \
+	make config && \
+	make install-logrotate
 
 EXPOSE 80
 
