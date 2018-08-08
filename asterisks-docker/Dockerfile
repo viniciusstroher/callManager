@@ -16,22 +16,20 @@ RUN uname -a
 
 
 RUN wget https://downloads.asterisk.org/pub/telephony/asterisk/asterisk-13-current.tar.gz && \
-	tar -xzvf dahdi-linux-2.11.1.tar.gz -C /usr/src/ && \
-	tar -xzvf dahdi-tools-2.11.1.tar.gz -C /usr/src/ && \
-	tar -xzvf libpri-1.6.0.tar.gz -C /usr/src/ && \
 	tar -xzvf asterisk-13-current.tar.gz -C /usr/src
 
 #make dos dahdi
 
-RUN cd /usr/src/asterisk-13-current/ && \
+RUN cd /usr/src/asterisk-13.22.0/ && \
 	./contrib/scripts/install_prereq install && \
 	make clean && \
-	./configure && \
+	./configure > /dev/null && \
 	make menuselect && \
 	make && \
 	make install && \
 	make config && \
-	make install-logrotate
+	make install-logrotate && \
+	make samples
 
 EXPOSE 80
 
