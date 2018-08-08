@@ -8,6 +8,7 @@ RUN apt-get update && \
 	apt-get -y install aptitude
 
 RUN aptitude -y install unixodbc-dev libtool make tar wget build-essential
+RUN aptitude -y install linux-headers
 RUN aptitude -y install vim php5 apache2 gcc g++ ncurses-dev libxml2 libxml2-dev 
 RUN aptitude -y install openssl openssh-server openssh-client libnewt-dev zlib1g zlib1g-dev unixodbc
 
