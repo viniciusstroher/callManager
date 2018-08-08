@@ -22,8 +22,10 @@ RUN wget https://downloads.asterisk.org/pub/telephony/asterisk/asterisk-13-curre
 
 RUN cd /usr/src/asterisk-13.22.0/ && \
 	./contrib/scripts/install_prereq install && \
-	make clean && \
-	./configure > /dev/null && \
+	make clean
+
+RUN cd /usr/src/asterisk-13.22.0/ && \
+	./configure 1 > /dev/null && \
 	make menuselect && \
 	make && \
 	make install && \
