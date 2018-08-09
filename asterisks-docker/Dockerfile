@@ -18,14 +18,13 @@ RUN uname -a
 RUN wget https://downloads.asterisk.org/pub/telephony/asterisk/asterisk-13-current.tar.gz && \
 	tar -xzvf asterisk-13-current.tar.gz -C /usr/src
 
-#make dos dahdi
+RUN	 cd /usr/src/asterisk-13.22.0/ && \ ./contrib/scripts/install_prereq install
+RUN	 cd /usr/src/asterisk-13.22.0/ && \ make clean
 
 RUN cd /usr/src/asterisk-13.22.0/ && \
-	./contrib/scripts/install_prereq install && \
-	make clean
+	./configure 1 > /dev/null
 
 RUN cd /usr/src/asterisk-13.22.0/ && \
-	./configure 1 > /dev/null && \
 	make menuselect && \
 	make && \
 	make install && \
